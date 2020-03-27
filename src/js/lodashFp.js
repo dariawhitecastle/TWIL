@@ -33,19 +33,16 @@ const pullValues = (array) =>
     return acc.concat([ profile, follower ]);
   }, []);
 
-// deduplicate my array of profiles and followers
-const dedupArray = (array) => _.uniq(array);
-
 // format array
 const formatValueArray = (array) =>
-  _.map(array, (string) => _.startCase(_.trimEnd(string, 'Profile')));
+  _.map(array, (string) => _.startCase(_.replace(string, 'Profile', '')));
 
 // map them to {value: Kim Hermosillo, label: Kim Hermosillo}
 const getOptions = (array) => _.map(array, (name) => ({ value: name, label: name }));
 
 const profileOptions = _.flow(
   pullValues,
-  dedupArray,
+  _.uniq,
   formatValueArray,
   getOptions
 );
